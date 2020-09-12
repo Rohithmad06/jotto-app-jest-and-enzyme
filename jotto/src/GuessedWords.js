@@ -11,20 +11,19 @@ const GuessedWords = (props) => {
   });
   return (
     <div data-test="guessed-words-component">
-      if(props.guessedWords.length===0)
-      {<span data-test="guess-instructions">Please guess a word</span>}
-      else
-      {
-        <table data-test="guessed-words-table-component">
-          <thead>
-            <tr> 
+      {props.guessedWords.length === 0 ? (
+        <span data-test="guess-instructions">Please guess a word</span>
+      ) : (
+        <table data-test="guessed-words-table-component" className="table table-sm">
+          <thead className="thead-light">
+            <tr>
               <th>Guess</th>
               <th>Matching Letters</th>
             </tr>
           </thead>
           <tbody>{tableRows}</tbody>
         </table>
-      }
+      )}
     </div>
   );
 };
