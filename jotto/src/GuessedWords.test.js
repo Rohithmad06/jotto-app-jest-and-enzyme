@@ -6,8 +6,10 @@ import GuessedWords from "./GuessedWords";
 const defaultProps = {
   guessedWords: [{ guessedWord: "train", letterMatchCount: 3 }],
 };
-const setup = (props = {}, state) => {
-  const setupProps = { ...defaultProps, ...props };
+const setup = (props = {}) => {
+  const setupProps = { ...props, ...defaultProps };
+
+  console.log(setupProps);
   return shallow(<GuessedWords {...setupProps} />);
 };
 
@@ -32,4 +34,35 @@ describe("If there are no words guessed", () => {
     expect(guessedWordComponent.text().length).not.toBe(0);
   });
 });
-describe("If there are words guessed", () => {});
+describe("If there are words guessed", () => {
+  const guessedWords = {
+    guessedWords: [
+      { guessedWord: "train", letterMatchCount: 3 },
+      { guessedWord: "agile", letterMatchCount: 1 },
+      { guessedWord: "party", letterMatchCount: 5 },
+    ],
+  };
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup(guessedWords);
+  });
+  test("renders without errors", () => {
+    const guessedWordComponent = findByTestAttr(
+      wrapper,
+      "guessed-words-component"
+    );
+    expect(guessedWordComponent.length).toBe(1);
+  });
+  test("renders guessed words section", () => {
+    const guessedWordsTablesComponent = findByTestAttr(
+      wrapper,
+      "guessed-words-table-component"
+    );
+    expect(guessedWordsTablesComponent.length).not.toBe(0);
+  });
+  test("correct number of guessed words", () => {
+    const guessedWordsRow = findByTestAttr(wrapper, "guessed-words-table-row");
+    console.log(guessedWordsRow.debug());
+    expect(guessedWordsRow.length).toBe(guessedWords.length);
+  });
+});
